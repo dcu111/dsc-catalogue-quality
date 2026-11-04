@@ -1,0 +1,6 @@
+# dane konkursu nie mogą trafić do repo
+*.csv
+data/
+baseline_output/
+.ipynb_checkpoints/
+__pycache__/
