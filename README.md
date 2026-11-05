@@ -15,18 +15,40 @@ Metryka: ROC-AUC. Walidacja: 5 foldów rozłącznych po sprzedawcach (podział z
 Każde porównanie jest kontrolowane: ten sam model (regresja logistyczna, C=2, liblinear, seed 42),
 te same hiperparametry i te same foldy; zmienia się jedna grupa cech.
 
+Wynik publiczny na Kaggle (exp2): 0.94576.
+
 ## Pliki
 
-- `notebooks/dsc-catalogue-eda.ipynb` – eksploracja danych, z której wynikły obie zmiany.
-- `notebooks/dsc-catalogue-model.ipynb` – model (baseline + exp1 + exp2), walidacja, `submission.csv`
-  oraz analiza 5 błędów OOF (reguła decyzji, macierz pomyłek, wybór przypadków).
+- `notebooks/dsc-catalogue-eda.ipynb` – eksploracja danych z dwoma wykresami i wnioskami, z których wynikły obie zmiany.
+- `notebooks/dsc-catalogue-model.ipynb` – model (baseline + exp1 + exp2), walidacja, `submission.csv`,
+  wykres skuteczności wersji oraz analiza 5 błędów OOF (reguła decyzji, macierz pomyłek, wybór przypadków).
+- `raport.pdf` – raport (15 stron): dane, walidacja, oba porównania, analiza błędów, największe wyzwania, użycie AI.
+- `figures/` – wykresy z notebooków jako pliki PNG.
+
+Oba notebooki są zapisane razem z wynikami i wykresami, więc można je czytać bez uruchamiania.
+
+## Najważniejsze wykresy
+
+**1. Stary licznik sztuk alarmuje głównie przy dobrych ofertach, `main_items` tylko przy złych** (porównanie #1)
+
+![Wykres 1](figures/wykres1_liczba_sztuk.png)
+
+**2. Złe oferty widać dopiero po porównaniu z typową wartością dla tego samego produktu** (porównanie #2)
+
+![Wykres 2](figures/wykres2_cena_waga_vs_produkt.png)
+
+**3. Każdy fold rośnie przy obu zmianach**
+
+![Wykres 3](figures/wykres3_auc_wersje.png)
 
 ## Jak uruchomić
 
 Na Kaggle: zaimportuj notebook, dołącz dane konkursu (Add Input → competition data) i uruchom wszystkie komórki.
 Lokalnie: umieść `train.csv`, `test.csv` i `sample_submission.csv` w `data/public/` i uruchom notebooki.
 Wymagania: CPU, bez internetu, ok. 25 s. Wersje z przebiegu na Kaggle: Python 3.13, numpy 2.1.3,
-pandas 2.3.3, scikit-learn 1.6.1 (`requirements.txt`). Seed 42; podział na foldy to SHA-256(seed:seller_id) mod 5.
+pandas 2.3.3, scikit-learn 1.6.1; do wykresów matplotlib (`requirements.txt`). Seed 42; podział na foldy
+to SHA-256(seed:seller_id) mod 5. Wyniki zapisane w notebookach pochodzą z przebiegu lokalnego (Python 3.12,
+te same wersje bibliotek); OOF różni się od Kaggle dopiero na 6. miejscu po przecinku (0.941876 vs 0.941872).
 
 Danych konkursu nie ma w repozytorium (regulamin zabrania ich redystrybucji).
 
@@ -42,5 +64,6 @@ Danych konkursu nie ma w repozytorium (regulamin zabrania ich redystrybucji).
 
 Kod i wyjaśnienia powstały z pomocą asystenta AI (Claude, Anthropic): propozycje pomysłów, pisanie i tłumaczenie
 kodu, sprawdzanie wyników. AI nie dostarczało etykiet, predykcji ani cech dla pojedynczych ofert.
-Każdą komórkę uruchomiłem sam na Kaggle i porównałem wyniki; szczegóły w raporcie.
+Dopiero zaczynam naukę data science, więc ta pomoc była duża; każdą komórkę uruchomiłem sam na Kaggle,
+porównałem wyniki i przeszedłem przez kod funkcja po funkcji. Szczegóły w raporcie (sekcja 10).
 Kod bazowy: `baseline_solution.ipynb` organizatorów konkursu.
